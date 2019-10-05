@@ -7,16 +7,15 @@ $modal-window-close-icon-color: #000000
 $modal-window-background-color: rgba(0, 0, 0, 0.5)
 $modal-window-content-background-color: #ffffff
 $modal-window-input-fields-background-color: #f3f3f3
-
 $modal-window-buttons-color: #ffffff
-$modal-window-positive-button-background-color: #27ae60
-$modal-window-negative-button-background-color: #c0392b
-$modal-window-positive-button-background-color-hover: #2ecc71
-$modal-window-negative-button-background-color-hover: #e74c3c
+
+$modal-window-positive-color: #27ae60
+$modal-window-negative-color: #c0392b
+$modal-window-positive-color-hover: #2ecc71
+$modal-window-negative-color-hover: #e74c3c
 
 $priority-color-low: #2980b9
 $priority-color-middle: #f39c12
-$priority-color-high: #c0392b
 
 $block-shadow-color: rgba(4, 13, 40, 0.1)
 $block-shadow-color-hover: rgba(4, 13, 40, 0.2)
@@ -132,7 +131,7 @@ button, input
         display: flex
         flex-direction: column
         justify-content: flex-start
-        .input
+        > input
           background-color: $modal-window-input-fields-background-color
           margin-top: 10px
           padding-left: 15px
@@ -144,6 +143,26 @@ button, input
           -moz-border-radius:    2px
           -ms-border-radius:     2px
           border-radius:         2px
+          -webkit-transition: all 0.3s
+          -moz-transition:    all 0.3s
+          -ms-transition:     all 0.3s
+          -o-transition:      all 0.3s
+          transition:         all 0.3s
+          &[type="text"]
+            &:focus
+              outline: 0
+            &:valid
+              &:required
+                color: $modal-window-positive-color-hover
+              &:not(:placeholder-shown)
+                color: $modal-window-positive-color-hover
+            &:invalid
+              &:required
+                &:not(:focus)
+                  &:not(:placeholder-shown)
+                    color: $modal-window-negative-color-hover
+          &[type="date"]
+            color: $modal-window-positive-color-hover
 
       .saved-to-do-item
         display: flex
@@ -157,7 +176,7 @@ button, input
           .priority-middle
             color: $priority-color-middle
           .priority-high
-            color: $priority-color-high
+            color: $modal-window-negative-color
 
       .form-buttons
         padding-top: 20px
@@ -184,14 +203,14 @@ button, input
               -o-transition:      all 0.3s
               transition:         all 0.3s
           .positive
-            background-color: $modal-window-positive-button-background-color
+            background-color: $modal-window-positive-color
             margin-left: 30px
             &:hover
-              background-color: $modal-window-positive-button-background-color-hover
+              background-color: $modal-window-positive-color-hover
           .negative
-            background-color: $modal-window-negative-button-background-color
+            background-color: $modal-window-negative-color
             &:hover
-              background-color: $modal-window-negative-button-background-color-hover
+              background-color: $modal-window-negative-color-hover
 
 // to-do-items-list--------------------------------------------------------
 .to-do-items-list
@@ -225,4 +244,4 @@ button, input
         .priority-middle
           color: $priority-color-middle
         .priority-high
-          color: $priority-color-high
+          color: $modal-window-negative-color
