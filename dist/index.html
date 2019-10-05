@@ -4,12 +4,80 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Blank babel project</title>
+    <title>Innocamp Petenok</title>
   </head>
 
   <body>
+    <section class="horizontal-component">
+      <ul class="control-panel">
+        <li class="item"><button class="button" id="create-button">Create Item</button></li>
+        <li class="item"><button class="button" id="edit-button">Edit Item</button></li>
+        <li class="item"><button class="button" id="delete-button">Delete Item</button></li>
+        <li class="item"><button class="button" id="sort-button">Sort Items</button></li>
+      <ul>
+    </section>
+
+    <section id="modal-window" class="hidden">
+      <div class="modal-window-content">
+        <section class="modal-window-header">
+          <div class="modal-title">Title</div>
+
+          <div class="modal-close-icon">
+            <div class="modal-close-icon-inner"></div>
+          </div>
+        </section>
+
+        <section class="modal-content">
+          <form action="" method="get">
+            <section  class="form-elements-block hidden">
+              <input class="input" type="text" name="name" id="name" value="Name *" required>
+              <input class="input" type="text" name="description" id="description" value="Description">
+              <input class="input" type="text" name="priority" id="priority" value="Priority *" required>
+              <input class="input" type="text" name="deadline" id="deadline" value="Deadline (date-time)">
+            </section>
+
+            <section class="saved-to-do-item">
+              <p class="text">Description text</p>
+              <p class="text">Priority:
+                <span class="priority-low">low/middle/high</span>
+              </p>
+              <p class="text">Deadline</p>
+            </section>
+
+            <section class="form-buttons">
+              <div class="hidden buttons-block">
+                <input class="input negative" type="button" value="Cancel" class="form-button">
+                <input class="input positive" type="submit" value="Add" class="form-button">
+              </div>
+
+              <div class="hidden buttons-block">
+                <input class="input negative" type="button" value="Cancel" class="form-button">
+                <input class="input positive" type="submit" value="Edit" class="form-button">
+              </div>
+
+              <div class="buttons-block">
+                <input class="input negative" type="button" value="Delete" class="form-button">
+                <input class="input positive" type="submit" value="Edit" class="form-button">
+                <input class="input positive" type="button" value="Mark as done" class="form-button">
+              </div>
+            </section>
+          </form>
+        </section>
+      </div>
+    </section>
+
+    <section class="horizontal-component to-do-items-list">
+      <section class="grid">
+        <div class="item">
+          <p class="text">Title</p>
+          <p class="text">Priority:
+            <span class="priority-low">low/middle/high</span>
+          </p>
+          <p class="text">Deadline</p>
+        </div>
+      </section>
+    </section>
+
     <script src="./bundle.js"></script>
-    <h1 class="main-text">Hello, my friend!</h1>
   </body>
 </html>

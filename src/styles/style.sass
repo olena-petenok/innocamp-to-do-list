@@ -1,31 +1,228 @@
-$main-text-color: #ff0000
+$contol-panel-buttons-text-color: #ffffff
+$contol-panel-buttons-background-color: #16a085
+$contol-panel-buttons-background-color-hover: #1abc9c
 
-$media-max-width: "max-width"
-$media-min-width: "min-width"
-$media-iphone-screen: 320px
-$media-galaxy-screen: 360px
-$media-small-screen: 639px
-$media-small-screen-min: 640px
-$media-medium-screen: 959px
-$media-medium-screen-min: 960px
-$media-large-screen: 1199px
-$media-large-screen-min: 1200px
-$media-extra-large-screen: 1599px
-$media-extra-large-screen-min: 1600px
+$modal-window-close-icon-color: #000000
 
-// ------------------------------------------------------------------------
+$modal-window-background-color: rgba(0, 0, 0, 0.5)
+$modal-window-content-background-color: #ffffff
+$modal-window-input-fields-background-color: #f3f3f3
+
+$modal-window-buttons-color: #ffffff
+$modal-window-positive-button-background-color: #27ae60
+$modal-window-negative-button-background-color: #c0392b
+$modal-window-positive-button-background-color-hover: #2ecc71
+$modal-window-negative-button-background-color-hover: #e74c3c
+
+$priority-color-low: #2980b9
+$priority-color-middle: #f39c12
+$priority-color-high: #c0392b
+
+$block-shadow-color: rgba(4, 13, 40, 0.1)
+$block-shadow-color-hover: rgba(4, 13, 40, 0.2)
+
+$title-font-size: 25px
+$text-font-size: 18px
+
+// main--------------------------------------------------------------------
 *, body, p
   margin: 0px
   padding: 0px
 
-ul, nav ul
+ul
   list-style: none
   margin: 0px
   padding: 0px
 
-.hidden
-  display: none
+button, input
+  border: 0px
 
-// ------------------------------------------------------------------------
-.main-text
-  color: $main-text-color
+.hidden
+  display: none !important
+
+.horizontal-component
+  margin-top: 50px
+
+// control-panel-----------------------------------------------------------
+.control-panel
+  display: flex
+  flex-direction: row
+  justify-content: center
+  .item
+    margin-right: 80px
+    &:last-of-type
+      margin-right: 0px
+    .button
+      color: $contol-panel-buttons-text-color
+      background-color: $contol-panel-buttons-background-color
+      font-size: $title-font-size
+      padding-left: 25px
+      padding-right: 25px
+      padding-top: 7px
+      padding-bottom: 7px
+      -webkit-border-radius: 2px
+      -moz-border-radius:    2px
+      -ms-border-radius:     2px
+      border-radius:         2px
+      &:hover
+        background-color: $contol-panel-buttons-background-color-hover
+        -webkit-transition: all 0.3s
+        -moz-transition:    all 0.3s
+        -ms-transition:     all 0.3s
+        -o-transition:      all 0.3s
+        transition:         all 0.3s
+
+// modal-window------------------------------------------------------------
+#modal-window
+  background-color: $modal-window-background-color
+  position: fixed
+  z-index: 1
+  left: 0
+  top: 0
+  width: 100%
+  height: 100%
+  overflow: auto
+  .modal-window-content
+    -webkit-border-radius: 2px
+    -moz-border-radius:    2px
+    -ms-border-radius:     2px
+    border-radius:         2px
+    background-color: $modal-window-content-background-color
+    margin: auto
+    margin-top: 10vh
+    width: 30vw
+    min-height: calc(80vh - 100px)
+    padding: 50px
+
+    .modal-window-header
+      display: flex
+      justify-content: space-between
+      .modal-title
+        font-size: 25px
+      .modal-close-icon
+        width: 24px
+        height: 16px
+        padding-top: 6px
+        .modal-close-icon-inner
+          position: relative
+          height: 2px
+          top: 7px
+          &:before
+            content: ""
+            position: absolute
+            background-color: $modal-window-close-icon-color
+            top: 0
+            left: 0
+            width: 100%
+            height: 100%
+            transform: rotate(45deg)
+          &:after
+            content: ""
+            position: absolute
+            background-color: $modal-window-close-icon-color
+            top: 0
+            left: 0
+            width: 100%
+            height: 100%
+            transform: rotate(135deg)
+
+    .modal-content
+      padding-top: 20px
+      .form-elements-block
+        display: flex
+        flex-direction: column
+        justify-content: flex-start
+        .input
+          background-color: $modal-window-input-fields-background-color
+          margin-top: 10px
+          padding-left: 15px
+          padding-right: 15px
+          padding-top: 6px
+          padding-bottom: 6px
+          font-size: 16px
+          -webkit-border-radius: 2px
+          -moz-border-radius:    2px
+          -ms-border-radius:     2px
+          border-radius:         2px
+
+      .saved-to-do-item
+        display: flex
+        flex-direction: column
+        justify-content: flex-start
+        .text
+          font-size: $text-font-size
+          padding-top: 10px
+          .priority-low
+            color: $priority-color-low
+          .priority-middle
+            color: $priority-color-middle
+          .priority-high
+            color: $priority-color-high
+
+      .form-buttons
+        padding-top: 20px
+        .buttons-block
+          display: flex
+          flex-direction: row
+          justify-content: space-between
+          .input
+            margin-top: 10px
+            padding-left: 20px
+            padding-right: 20px
+            padding-top: 6px
+            padding-bottom: 6px
+            font-size: $text-font-size
+            -webkit-border-radius: 2px
+            -moz-border-radius:    2px
+            -ms-border-radius:     2px
+            border-radius:         2px
+            color: $modal-window-buttons-color
+            &:hover
+              -webkit-transition: all 0.3s
+              -moz-transition:    all 0.3s
+              -ms-transition:     all 0.3s
+              -o-transition:      all 0.3s
+              transition:         all 0.3s
+          .positive
+            background-color: $modal-window-positive-button-background-color
+            margin-left: 30px
+            &:hover
+              background-color: $modal-window-positive-button-background-color-hover
+          .negative
+            background-color: $modal-window-negative-button-background-color
+            &:hover
+              background-color: $modal-window-negative-button-background-color-hover
+
+// to-do-items-list--------------------------------------------------------
+.to-do-items-list
+  padding-left: 100px
+  padding-right: 100px
+  .grid
+    display: grid
+    grid-template-columns: auto auto auto
+    .item
+      margin: 20px
+      padding: 20px
+      -webkit-transition: 0.2s ease-in-out
+      -moz-transition:    0.2s ease-in-out
+      -ms-transition:     0.2s ease-in-out
+      -o-transition:      0.2s ease-in-out
+      transition:         0.2s ease-in-out
+      -webkit-box-shadow: 2px 8px 20px $block-shadow-color
+      -moz-box-shadow:    2px 8px 20px $block-shadow-color
+      box-shadow:         2px 8px 20px $block-shadow-color
+      &:hover
+        margin-top: 10px
+        margin-bottom: 10px
+        -webkit-box-shadow: 2px 8px 30px $block-shadow-color-hover
+        -moz-box-shadow:    2px 8px 30px $block-shadow-color-hover
+        box-shadow:         2px 8px 30px $block-shadow-color-hover
+      .text
+        font-size: $text-font-size
+        padding-top: 10px
+        .priority-low
+          color: $priority-color-low
+        .priority-middle
+          color: $priority-color-middle
+        .priority-high
+          color: $priority-color-high
