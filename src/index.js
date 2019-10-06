@@ -3,6 +3,22 @@ import './styles/style.sass';
 // onClick -> stop propagation
 // p.getBy.onClick = function (e) {e.stopPropagation(); do smth}
 
+function onItemEditButtonClicked() {
+  showModalWindowToEditItem();
+}
+
+function onModalWindowEditButtonClicked() {
+  alert("modal edit");
+}
+
+function onItemDeleteButtonClicked() {
+  alert("delete");
+}
+
+function onItemMarkAsReadButtonClicked() {
+  alert("mark as read");
+}
+
 function renderToDoItem(data) {
   const container = document.querySelector(`.to-do-items-list .grid`);
   const itemDiv = document.createElement("div");
@@ -12,6 +28,10 @@ function renderToDoItem(data) {
   const prioritySpan = document.createElement("span");
   const deadline = document.createElement("p");
   const isDone = document.createElement("p");
+  const deleteButton = document.createElement("input");
+  const editButton = document.createElement("input");
+  const markAsReadButton = document.createElement("input");
+  const buttonsWrapper = document.createElement("div");
 
   title.innerText = data.name;
   priority.innerText = "Priority: ";
@@ -26,6 +46,13 @@ function renderToDoItem(data) {
   if (data.isDone) { isDone.innerText = "Done"; }
   else { isDone.innerText = "To do"; }
 
+  deleteButton.value = "Delete";
+  editButton.value = "Edit";
+  markAsReadButton.value = "Mark as read";
+  deleteButton.type = "button";
+  editButton.type = "button";
+  markAsReadButton.type = "button";
+
   title.classList.add("title");
   description.classList.add("text");
   priority.classList.add("text");
@@ -33,13 +60,25 @@ function renderToDoItem(data) {
   isDone.classList.add("text");
   prioritySpan.classList.add(`priority-` + data.priority);
   itemDiv.classList.add("item");
+  deleteButton.classList.add("negative");
+  editButton.classList.add("positive");
+  markAsReadButton.classList.add("positive");
+  buttonsWrapper.classList.add("buttons-wrapper");
 
+  deleteButton.addEventListener("click", onItemDeleteButtonClicked, false);
+  editButton.addEventListener("click", onItemEditButtonClicked, false);
+  markAsReadButton.addEventListener("click", onItemMarkAsReadButtonClicked, false);
+
+  buttonsWrapper.append(deleteButton);
+  buttonsWrapper.append(editButton);
+  buttonsWrapper.append(markAsReadButton);
   priority.append(prioritySpan);
   itemDiv.append(title);
   itemDiv.append(description);
   itemDiv.append(priority);
   itemDiv.append(deadline);
   itemDiv.append(isDone);
+  itemDiv.append(buttonsWrapper);
   container.append(itemDiv);
 }
 
@@ -56,7 +95,6 @@ function hideModalWindow() {
   document.querySelector(`#modal-window .saved-to-do-item`).classList.add("hidden");
   document.getElementById("create-item-window").classList.add("hidden");
   document.getElementById("edit-item-window").classList.add("hidden");
-  document.getElementById("action-on-item-window").classList.add("hidden");
 }
 
 function showModalWindowToCreateItem() {
@@ -70,44 +108,6 @@ function showModalWindowToEditItem() {
   document.getElementById("edit-item-window").classList.remove("hidden");
   document.getElementById("modal-window").classList.remove("hidden");
 }
-
-function onEditButtonClicked() {
-  // choose an item from the list in a bit different window, after that do the stuff below
-  showModalWindowToEditItem();
-}
-
-function onDeleteButtonClicked() {
-  alert("delete");
-}
-
-function onSortButtonClicked() {
-  alert("sort");
-}
-
-function onCreateItemWindowCreateButtonClicked() {
-  // let name = document.getElementById("name").innerText();
-  // alert(name);
-
-}
-
-function onEditItemWindowEditButtonClicked() {
-  alert("clicked");
-}
-
-// function onActionOnItemWindowDeleteButtonClicked() {
-//   alert("clicked");
-// }
-//
-// function onActionOnItemWindowEditButtonClicked() {
-//   alert("clicked");
-// }
-//
-// function onActionOnItemWindowMarkAsReadButtonClicked() {
-//   alert("clicked");
-// }
-
-// let modalWindow = document.getElementById("modal-window");
-// modalWindow.addEventListener("click", hideModalWindow, true);
 
 function collectFormData() {
   const name = document.getElementById("name").value;
@@ -133,14 +133,14 @@ function onSubmitClicked(event) {
   event.preventDefault();
 }
 
+function onSortButtonClicked() {
+  alert("sort");
+}
+
 // control panel
 const createButton = document.getElementById("control-panel-create-button");
-const editButton = document.getElementById("control-panel-edit-button");
-const deleteButton = document.getElementById("control-panel-delete-button");
 const sortButton = document.getElementById("control-panel-sort-button");
 createButton.addEventListener("click", showModalWindowToCreateItem, false);
-editButton.addEventListener("click", onEditButtonClicked, false);
-deleteButton.addEventListener("click", onDeleteButtonClicked, false);
 sortButton.addEventListener("click", onSortButtonClicked, false);
 
 // close modal window buttons
@@ -151,18 +151,9 @@ closeIcone.addEventListener("click", hideModalWindow, false);
 createItemWindowCancelButton.addEventListener("click", hideModalWindow, false);
 editItemWindowCancelButton.addEventListener("click", hideModalWindow, false);
 
-// modal window buttons
-const editItemWindowEditButton = document.getElementById("edit-item-window-edit-button");
-editItemWindowEditButton.addEventListener("click", onEditItemWindowEditButtonClicked, false);
-// const createItemWindowCreateButton = document.getElementById("create-item-window-create-button");
-// const actionOnItemWindowDeleteButton = document.getElementById("action-on-item-window-delete-button");
-// const actionOnItemWindowEditButton = document.getElementById("action-on-item-window-edit-button");
-// const actionOnItemWindowMarkAsReadButton = document.getElementById("action-on-item-window-mark-as-read-button");
-// createItemWindowCreateButton.addEventListener("click", onCreateItemWindowCreateButtonClicked, false);
-// actionOnItemWindowDeleteButton.addEventListener("click", onActionOnItemWindowDeleteButtonClicked, false);
-// actionOnItemWindowEditButton.addEventListener("click", onActionOnItemWindowEditButtonClicked, false);
-// actionOnItemWindowMarkAsReadButton.addEventListener("click", onActionOnItemWindowMarkAsReadButtonClicked, false);
-
+// modal window buttons (create as submit, edit)
+const modalWindowEditButton = document.getElementById("edit-item-window-edit-button");
+modalWindowEditButton.addEventListener("click", onModalWindowEditButtonClicked, false);
 // form submit
 const form = document.getElementById("form");
 form.addEventListener('submit', onSubmitClicked);

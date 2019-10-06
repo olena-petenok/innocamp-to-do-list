@@ -42,6 +42,16 @@ button, input
 .horizontal-component
   margin-top: 50px
 
+.positive
+  background-color: $modal-window-positive-color
+  &:hover
+    background-color: $modal-window-positive-color-hover
+
+.negative
+  background-color: $modal-window-negative-color
+  &:hover
+    background-color: $modal-window-negative-color-hover
+
 // control-panel-----------------------------------------------------------
 .control-panel
   display: flex
@@ -237,15 +247,6 @@ button, input
               -ms-transition:     all 0.3s
               -o-transition:      all 0.3s
               transition:         all 0.3s
-          .positive
-            background-color: $modal-window-positive-color
-            margin-left: 30px
-            &:hover
-              background-color: $modal-window-positive-color-hover
-          .negative
-            background-color: $modal-window-negative-color
-            &:hover
-              background-color: $modal-window-negative-color-hover
 
 // to-do-items-list--------------------------------------------------------
 .to-do-items-list
@@ -284,3 +285,25 @@ button, input
           color: $priority-color-middle
         .priority-high
           color: $modal-window-negative-color
+      .buttons-wrapper
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        input
+          margin-top: 20px
+          padding-left: 20px
+          padding-right: 20px
+          padding-top: 4px
+          padding-bottom: 4px
+          font-size: $text-font-size
+          -webkit-border-radius: 2px
+          -moz-border-radius:    2px
+          -ms-border-radius:     2px
+          border-radius:         2px
+          color: $modal-window-buttons-color
+          &:hover
+            -webkit-transition: all 0.3s
+            -moz-transition:    all 0.3s
+            -ms-transition:     all 0.3s
+            -o-transition:      all 0.3s
+            transition:         all 0.3s
