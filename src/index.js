@@ -1,26 +1,54 @@
 import './styles/style.sass';
 
-// function CreateHeaderForModalWindow() {
-//   let modalHeader = document.createElement("section");
-//   let modalTitle = document.createElement("h5");
-//   let modalCloseIcon = document.createElement("div");
-//
-//   modalTitle.innerText = "Title";
-//   modalHeader.append(modalTitle);
-//   modalHeader.append(modalCloseIcon);
-//
-//   return modalHeader;
-// }
-//
-// function ShowModalWindow() {
-//   const modalHeader = CreateHeaderForModalWindow();
-//
-//   const modalWindow = document.getElementById("modal-window");
-//   modalWindow.append(modalHeader);
-// }
-
 // onClick -> stop propagation
 // p.getBy.onClick = function (e) {e.stopPropagation(); do smth}
+
+function renderToDoItem(data) {
+  const container = document.querySelector(`.to-do-items-list .grid`);
+  const itemDiv = document.createElement("div");
+  const title = document.createElement("p");
+  const description = document.createElement("p");
+  const priority = document.createElement("p");
+  const prioritySpan = document.createElement("span");
+  const deadline = document.createElement("p");
+  const isDone = document.createElement("p");
+
+  title.innerText = data.name;
+  priority.innerText = "Priority: ";
+  prioritySpan.innerText = data.priority;
+
+  if (data.description) { description.innerText = data.description; }
+  else { description.innerText = "No description" }
+
+  if (data.deadline) { deadline.innerText = data.deadline; }
+  else { deadline.innerText = "No deadline"; }
+
+  if (data.isDone) { isDone.innerText = "Done"; }
+  else { isDone.innerText = "To do"; }
+
+  title.classList.add("title");
+  description.classList.add("text");
+  priority.classList.add("text");
+  deadline.classList.add("text");
+  isDone.classList.add("text");
+  prioritySpan.classList.add(`priority-` + data.priority);
+  itemDiv.classList.add("item");
+
+  priority.append(prioritySpan);
+  itemDiv.append(title);
+  itemDiv.append(description);
+  itemDiv.append(priority);
+  itemDiv.append(deadline);
+  itemDiv.append(isDone);
+  container.append(itemDiv);
+}
+
+function renderToDoList() {
+  const currentList = JSON.parse(locallyStoredData.getItem("toDoListData"));
+  for (let item in currentList) {
+    renderToDoItem(currentList[item]);
+  }
+}
 
 function hideModalWindow() {
   document.getElementById("modal-window").classList.add("hidden");
@@ -101,7 +129,7 @@ function onSubmitClicked(event) {
   let currentList = JSON.parse(locallyStoredData.getItem("toDoListData"));
   currentList.push(data);
   locallyStoredData.setItem("toDoListData", JSON.stringify(currentList));
-  console.log(JSON.parse(locallyStoredData.getItem("toDoListData")));
+  renderToDoItem(data);
   event.preventDefault();
 }
 
@@ -141,24 +169,30 @@ form.addEventListener('submit', onSubmitClicked);
 
 // local storage
 let locallyStoredData = window.localStorage;
-// let defaultData = [{
-//     name: "name1",
-//     description: "description1",
-//     priority: "priority1",
-//     deadline: "deadline1",
-//     isDone: false
-//   },{
-//     name: "name2",
-//     description: "description2",
-//     priority: "priority2",
-//     deadline: "deadline2",
-//     isDone: false
-//   },{
-//     name: "name3",
-//     description: "description3",
-//     priority: "priority3",
-//     deadline: "deadline3",
-//     isDone: false
-// }];
-//
-// locallyStoredData.setItem("toDoListData", JSON.stringify(defaultData));
+// locallyStoredData.clear();
+if (locallyStoredData.getItem("toDoListData") === null) {
+  const defaultData = [{
+    name: "Create stuff",
+    description: "Description of the stuff",
+    priority: "high",
+    deadline: "2019-10-17T07:08",
+    isDone: false
+  },{
+    name: "Create",
+    description: "Description of the stuff",
+    priority: "middle",
+    deadline: "2019-10-17T07:08",
+    isDone: false
+  },{
+    name: "Create",
+    description: "Description of the stuff",
+    priority: "low",
+    deadline: "2020-10-17T07:08",
+    isDone: false
+  }];
+
+  locallyStoredData.setItem("toDoListData", JSON.stringify(defaultData));
+}
+
+// first render of the list
+renderToDoList();
