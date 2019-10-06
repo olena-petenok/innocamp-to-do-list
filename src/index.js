@@ -3,20 +3,66 @@ import './styles/style.sass';
 // onClick -> stop propagation
 // p.getBy.onClick = function (e) {e.stopPropagation(); do smth}
 
-function onItemEditButtonClicked() {
-  showModalWindowToEditItem();
+function hideModalWindow() {
+  document.getElementById("modal-window").classList.add("hidden");
+  document.querySelector(`#modal-window .form-elements-block`).classList.add("hidden");
+  document.querySelector(`#modal-window .saved-to-do-item`).classList.add("hidden");
+  document.getElementById("create-item-window").classList.add("hidden");
+  document.getElementById("edit-item-window").classList.add("hidden");
+}
+
+function showModalWindowToCreateItem() {
+  document.querySelector(`#modal-window .form-elements-block`).classList.remove("hidden");
+  document.getElementById("create-item-window").classList.remove("hidden");
+  document.getElementById("modal-window").classList.remove("hidden");
+}
+
+function showModalWindowToEditItem(data) {
+  console.log("modal: " + data);
+  document.querySelector(`#modal-window .saved-to-do-item`).classList.remove("hidden");
+  document.getElementById("edit-item-window").classList.remove("hidden");
+  document.getElementById("modal-window").classList.remove("hidden");
+}
+
+function onItemEditButtonClicked(event) {
+  console.log("edit");
+  console.log(event.target.parentElement.parentElement);
+  showModalWindowToEditItem(event.target.parentElement.parentElement);
 }
 
 function onModalWindowEditButtonClicked() {
-  alert("modal edit");
+  console.log("modal edit");
 }
 
-function onItemDeleteButtonClicked() {
-  alert("delete");
+function onItemDeleteButtonClicked(event) {
+  const data = event.target.parentElement.parentElement;
+  let splice = 0;
+
+  let parent = data.parentElement;
+  for (let item of parent.children) {
+    if (item.id == data.id) {
+      parent.removeChild(item);
+      break;
+    }
+    splice++;
+  }
+
+  let currentList = JSON.parse(locallyStoredData.getItem("toDoListData"));
+  currentList.splice(splice, 1);
+  console.log(currentList);
+  locallyStoredData.setItem("toDoListData", JSON.stringify(currentList));
 }
 
-function onItemMarkAsReadButtonClicked() {
-  alert("mark as read");
+function onItemMarkAsReadButtonClicked(event) {
+  const data = event.target.parentElement.parentElement;
+
+  let currentList = JSON.parse(locallyStoredData.getItem("toDoListData"));
+  for (let item in currentList) {
+    if (item.id == data.id) { item.isDone = true; break; }
+  }
+  locallyStoredData.setItem("toDoListData", JSON.stringify(currentList));
+
+  data.childNodes[4].innerText = "DONE";
 }
 
 function renderToDoItem(data) {
@@ -33,6 +79,8 @@ function renderToDoItem(data) {
   const markAsReadButton = document.createElement("input");
   const buttonsWrapper = document.createElement("div");
 
+  itemDiv.setAttribute("id", data.id);
+
   title.innerText = data.name;
   priority.innerText = "Priority: ";
   prioritySpan.innerText = data.priority;
@@ -44,7 +92,7 @@ function renderToDoItem(data) {
   else { deadline.innerText = "No deadline"; }
 
   if (data.isDone) { isDone.innerText = "Done"; }
-  else { isDone.innerText = "To do"; }
+  else { isDone.innerText = "TO DO"; }
 
   deleteButton.value = "Delete";
   editButton.value = "Edit";
@@ -89,32 +137,16 @@ function renderToDoList() {
   }
 }
 
-function hideModalWindow() {
-  document.getElementById("modal-window").classList.add("hidden");
-  document.querySelector(`#modal-window .form-elements-block`).classList.add("hidden");
-  document.querySelector(`#modal-window .saved-to-do-item`).classList.add("hidden");
-  document.getElementById("create-item-window").classList.add("hidden");
-  document.getElementById("edit-item-window").classList.add("hidden");
-}
-
-function showModalWindowToCreateItem() {
-  document.querySelector(`#modal-window .form-elements-block`).classList.remove("hidden");
-  document.getElementById("create-item-window").classList.remove("hidden");
-  document.getElementById("modal-window").classList.remove("hidden");
-}
-
-function showModalWindowToEditItem() {
-  document.querySelector(`#modal-window .saved-to-do-item`).classList.remove("hidden");
-  document.getElementById("edit-item-window").classList.remove("hidden");
-  document.getElementById("modal-window").classList.remove("hidden");
-}
-
 function collectFormData() {
   const name = document.getElementById("name").value;
   const description = document.getElementById("description").value;
   const priority = document.getElementById("priority").value;
   const deadline = document.getElementById("deadline").value;
+  const id = parseInt(locallyStoredData.getItem("id"));
+  locallyStoredData.setItem("id", ("" + (id + 1)));
+
   return {
+    id: id,
     name: name ? name : '',
     description: description ? description : '',
     priority: priority ? priority : '',
@@ -134,7 +166,7 @@ function onSubmitClicked(event) {
 }
 
 function onSortButtonClicked() {
-  alert("sort");
+  console.log("sort");
 }
 
 // control panel
@@ -154,7 +186,7 @@ editItemWindowCancelButton.addEventListener("click", hideModalWindow, false);
 // modal window buttons (create as submit, edit)
 const modalWindowEditButton = document.getElementById("edit-item-window-edit-button");
 modalWindowEditButton.addEventListener("click", onModalWindowEditButtonClicked, false);
-// form submit
+// submit
 const form = document.getElementById("form");
 form.addEventListener('submit', onSubmitClicked);
 
@@ -163,18 +195,21 @@ let locallyStoredData = window.localStorage;
 // locallyStoredData.clear();
 if (locallyStoredData.getItem("toDoListData") === null) {
   const defaultData = [{
+    id: 1,
     name: "Create stuff",
     description: "Description of the stuff",
     priority: "high",
     deadline: "2019-10-17T07:08",
     isDone: false
   },{
+    id: 2,
     name: "Create",
     description: "Description of the stuff",
     priority: "middle",
     deadline: "2019-10-17T07:08",
     isDone: false
   },{
+    id: 3,
     name: "Create",
     description: "Description of the stuff",
     priority: "low",
@@ -183,6 +218,7 @@ if (locallyStoredData.getItem("toDoListData") === null) {
   }];
 
   locallyStoredData.setItem("toDoListData", JSON.stringify(defaultData));
+  locallyStoredData.setItem("id", "4");
 }
 
 // first render of the list
