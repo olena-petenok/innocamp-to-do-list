@@ -131,7 +131,7 @@ button, input
         display: flex
         flex-direction: column
         justify-content: flex-start
-        > input
+        input
           background-color: $modal-window-input-fields-background-color
           margin-top: 10px
           padding-left: 15px
@@ -152,8 +152,7 @@ button, input
             &:focus
               outline: 0
             &:valid
-              &:required
-                color: $modal-window-positive-color-hover
+              color: $modal-window-positive-color-hover
               &:not(:placeholder-shown)
                 color: $modal-window-positive-color-hover
             &:invalid
@@ -161,8 +160,44 @@ button, input
                 &:not(:focus)
                   &:not(:placeholder-shown)
                     color: $modal-window-negative-color-hover
-          &[type="date"]
+
+        select
+          border: 0px
+          background-color: $modal-window-input-fields-background-color
+          margin-top: 10px
+          padding-left: 15px
+          padding-right: 15px
+          padding-top: 6px
+          padding-bottom: 6px
+          font-size: 16px
+          -webkit-border-radius: 2px
+          -moz-border-radius:    2px
+          -ms-border-radius:     2px
+          border-radius:         2px
+          -webkit-transition: all 0.3s
+          -moz-transition:    all 0.3s
+          -ms-transition:     all 0.3s
+          -o-transition:      all 0.3s
+          transition:         all 0.3s
+          &:focus
+            outline: 0
+          &:valid
             color: $modal-window-positive-color-hover
+            &:not(:placeholder-shown)
+              color: $modal-window-positive-color-hover
+
+          option
+            padding-left: 15px
+            padding-right: 15px
+            padding-top: 6px
+            padding-bottom: 6px
+            font-size: 16px
+          .low
+            color: $priority-color-low
+          .middle
+            color: $priority-color-middle
+          .high
+            color: $modal-window-negative-color
 
       .saved-to-do-item
         display: flex

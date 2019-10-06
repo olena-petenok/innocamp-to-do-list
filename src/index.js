@@ -1,5 +1,26 @@
 import './styles/style.sass';
 
+// function CreateHeaderForModalWindow() {
+//   let modalHeader = document.createElement("section");
+//   let modalTitle = document.createElement("h5");
+//   let modalCloseIcon = document.createElement("div");
+//
+//   modalTitle.innerText = "Title";
+//   modalHeader.append(modalTitle);
+//   modalHeader.append(modalCloseIcon);
+//
+//   return modalHeader;
+// }
+//
+// function ShowModalWindow() {
+//   const modalHeader = CreateHeaderForModalWindow();
+//
+//   const modalWindow = document.getElementById("modal-window");
+//   modalWindow.append(modalHeader);
+// }
+
+// onClick -> stop propagation
+// p.getBy.onClick = function (e) {e.stopPropagation(); do smth}
 
 function hideModalWindow() {
   document.getElementById("modal-window").classList.add("hidden");
@@ -36,49 +57,108 @@ function onSortButtonClicked() {
 }
 
 function onCreateItemWindowCreateButtonClicked() {
-  alert("created");
+  // let name = document.getElementById("name").innerText();
+  // alert(name);
+
 }
 
 function onEditItemWindowEditButtonClicked() {
   alert("clicked");
 }
 
-function onActionOnItemWindowDeleteButtonClicked() {
-  alert("clicked");
+// function onActionOnItemWindowDeleteButtonClicked() {
+//   alert("clicked");
+// }
+//
+// function onActionOnItemWindowEditButtonClicked() {
+//   alert("clicked");
+// }
+//
+// function onActionOnItemWindowMarkAsReadButtonClicked() {
+//   alert("clicked");
+// }
+
+// let modalWindow = document.getElementById("modal-window");
+// modalWindow.addEventListener("click", hideModalWindow, true);
+
+function collectFormData() {
+  const name = document.getElementById("name").value;
+  const description = document.getElementById("description").value;
+  const priority = document.getElementById("priority").value;
+  const deadline = document.getElementById("deadline").value;
+  return {
+    name: name ? name : '',
+    description: description ? description : '',
+    priority: priority ? priority : '',
+    deadline: deadline ? deadline : '',
+    isDone: false
+  };
 }
 
-function onActionOnItemWindowEditButtonClicked() {
-  alert("clicked");
+function onSubmitClicked(event) {
+  const data = collectFormData();
+  hideModalWindow();
+  let currentList = JSON.parse(locallyStoredData.getItem("toDoListData"));
+  currentList.push(data);
+  locallyStoredData.setItem("toDoListData", JSON.stringify(currentList));
+  console.log(JSON.parse(locallyStoredData.getItem("toDoListData")));
+  event.preventDefault();
 }
 
-function onActionOnItemWindowMarkAsReadButtonClicked() {
-  alert("clicked");
-}
-
-let createButton = document.getElementById("control-panel-create-button");
-let editButton = document.getElementById("control-panel-edit-button");
-let deleteButton = document.getElementById("control-panel-delete-button");
-let sortButton = document.getElementById("control-panel-sort-button");
-
-let closeIcone = document.querySelector(`#modal-window .modal-close-icon`);
-let createItemWindowCancelButton = document.getElementById("create-item-window-cancel-button");
-let createItemWindowCreateButton = document.getElementById("create-item-window-create-button");
-let editItemWindowCancelButton = document.getElementById("edit-item-window-cancel-button");
-let editItemWindowEditButton = document.getElementById("edit-item-window-edit-button");
-let actionOnItemWindowDeleteButton = document.getElementById("action-on-item-window-delete-button");
-let actionOnItemWindowEditButton = document.getElementById("action-on-item-window-edit-button");
-let actionOnItemWindowMarkAsReadButton = document.getElementById("action-on-item-window-mark-as-read-button");
-
+// control panel
+const createButton = document.getElementById("control-panel-create-button");
+const editButton = document.getElementById("control-panel-edit-button");
+const deleteButton = document.getElementById("control-panel-delete-button");
+const sortButton = document.getElementById("control-panel-sort-button");
 createButton.addEventListener("click", showModalWindowToCreateItem, false);
 editButton.addEventListener("click", onEditButtonClicked, false);
 deleteButton.addEventListener("click", onDeleteButtonClicked, false);
 sortButton.addEventListener("click", onSortButtonClicked, false);
 
+// close modal window buttons
+const closeIcone = document.querySelector(`#modal-window .modal-close-icon`);
+const createItemWindowCancelButton = document.getElementById("create-item-window-cancel-button");
+const editItemWindowCancelButton = document.getElementById("edit-item-window-cancel-button");
 closeIcone.addEventListener("click", hideModalWindow, false);
 createItemWindowCancelButton.addEventListener("click", hideModalWindow, false);
-createItemWindowCreateButton.addEventListener("click", onCreateItemWindowCreateButtonClicked, false);
 editItemWindowCancelButton.addEventListener("click", hideModalWindow, false);
+
+// modal window buttons
+const editItemWindowEditButton = document.getElementById("edit-item-window-edit-button");
 editItemWindowEditButton.addEventListener("click", onEditItemWindowEditButtonClicked, false);
-actionOnItemWindowDeleteButton.addEventListener("click", onActionOnItemWindowDeleteButtonClicked, false);
-actionOnItemWindowEditButton.addEventListener("click", onActionOnItemWindowEditButtonClicked, false);
-actionOnItemWindowMarkAsReadButton.addEventListener("click", onActionOnItemWindowMarkAsReadButtonClicked, false);
+// const createItemWindowCreateButton = document.getElementById("create-item-window-create-button");
+// const actionOnItemWindowDeleteButton = document.getElementById("action-on-item-window-delete-button");
+// const actionOnItemWindowEditButton = document.getElementById("action-on-item-window-edit-button");
+// const actionOnItemWindowMarkAsReadButton = document.getElementById("action-on-item-window-mark-as-read-button");
+// createItemWindowCreateButton.addEventListener("click", onCreateItemWindowCreateButtonClicked, false);
+// actionOnItemWindowDeleteButton.addEventListener("click", onActionOnItemWindowDeleteButtonClicked, false);
+// actionOnItemWindowEditButton.addEventListener("click", onActionOnItemWindowEditButtonClicked, false);
+// actionOnItemWindowMarkAsReadButton.addEventListener("click", onActionOnItemWindowMarkAsReadButtonClicked, false);
+
+// form submit
+const form = document.getElementById("form");
+form.addEventListener('submit', onSubmitClicked);
+
+// local storage
+let locallyStoredData = window.localStorage;
+// let defaultData = [{
+//     name: "name1",
+//     description: "description1",
+//     priority: "priority1",
+//     deadline: "deadline1",
+//     isDone: false
+//   },{
+//     name: "name2",
+//     description: "description2",
+//     priority: "priority2",
+//     deadline: "deadline2",
+//     isDone: false
+//   },{
+//     name: "name3",
+//     description: "description3",
+//     priority: "priority3",
+//     deadline: "deadline3",
+//     isDone: false
+// }];
+//
+// locallyStoredData.setItem("toDoListData", JSON.stringify(defaultData));

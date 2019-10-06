@@ -28,12 +28,17 @@
         </section>
 
         <section class="modal-content">
-          <form action="#0" method="post">
+          <form action="" method="" id="form">
             <section class="hidden form-elements-block">
-              <input required type="text" name="name" id="name" placeholder="Name *" pattern="(?=.*[a-z])(?=.*[A-Z]).{2,}">
+              <input required type="text" name="name" id="name" placeholder="Name *" pattern="(?=.*[a-z])(?=.*[A-Z]).{2,20}">
               <input type="text" name="description" id="description" placeholder="Description">
-              <input required type="text" name="priority" id="priority" placeholder="Priority *">
-              <input type="date" name="deadline" id="deadline" placeholder=" ">
+              <select required name="priority" id="priority">
+                <option value="">Priority *</option>
+                <option value="low" class="low">low</option>
+                <option value="middle" class="middle">middle</option>
+                <option value="high" class="high">high</option>
+              </select>
+              <input type="datetime-local" name="deadline" id="deadline" placeholder=" ">
             </section>
 
             <section class="hidden saved-to-do-item">
@@ -52,12 +57,12 @@
 
               <div class="hidden buttons-block" id="edit-item-window">
                 <input id="edit-item-window-cancel-button" class="input negative" type="button" value="Cancel" class="form-button">
-                <input id="edit-item-window-edit-button" class="input positive" type="submit" value="Edit" class="form-button">
+                <input id="edit-item-window-edit-button" class="input positive" type="button" value="Edit" class="form-button">
               </div>
 
               <div class="hidden buttons-block" id="action-on-item-window">
                 <input id="action-on-item-window-delete-button" class="input negative" type="button" value="Delete" class="form-button">
-                <input id="action-on-item-window-edit-button" class="input positive" type="submit" value="Edit" class="form-button">
+                <input id="action-on-item-window-edit-button" class="input positive" type="button" value="Edit" class="form-button">
                 <input id="action-on-item-window-mark-as-read-button" class="input positive" type="button" value="Mark as done" class="form-button">
               </div>
             </section>
