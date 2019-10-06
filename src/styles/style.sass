@@ -62,7 +62,7 @@ button, input
     margin-right: 80px
     &:last-of-type
       margin-right: 0px
-    .button
+    .inner
       color: $contol-panel-buttons-text-color
       background-color: $contol-panel-buttons-background-color
       font-size: $title-font-size
@@ -81,7 +81,10 @@ button, input
         -ms-transition:     all 0.3s
         -o-transition:      all 0.3s
         transition:         all 0.3s
-
+    &[type="text"]
+      &:focus
+        outline: 0
+        
 // modal-window------------------------------------------------------------
 #modal-window
   background-color: $modal-window-background-color

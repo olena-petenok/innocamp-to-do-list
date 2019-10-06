@@ -1,14 +1,10 @@
 import './styles/style.sass';
 
-const DONE = "DONE";
-const TODO = "TO DO";
-const PRIORITY = "Priority: ";
+// onClick -> stop propagation
+// p.getBy.onClick = function (e) {e.stopPropagation(); do smth}
 
 // Sort all saved items by Done/Undone first and then by priority
 // Add possibility to search by any text in the To-Do item (by hiding items that do not match)
-
-// onClick -> stop propagation
-// p.getBy.onClick = function (e) {e.stopPropagation(); do smth}
 
 function hideModalWindow() {
   document.getElementById("modal-window").classList.add("hidden");
@@ -31,7 +27,9 @@ function showModalWindowToEditItem(data) {
   let title = document.querySelector(`#modal-window .modal-title`);
 
   name.value = data.childNodes[0].innerText;
-  description.value = data.childNodes[1].innerText;
+  if ("No description" != data.childNodes[1].innerText) {
+    description.value = data.childNodes[1].innerText;
+  }
   priority.value = data.childNodes[2].innerText.split(' ')[1];
   if ("No deadline" != data.childNodes[3].innerText) {
     deadline.value = data.childNodes[3].innerText;
@@ -45,7 +43,7 @@ function showModalWindowToEditItem(data) {
 
 function onItemEditButtonClicked(event) {
   let data = event.target.parentElement.parentElement;
-  if (data.childNodes[4].innerText == DONE) { alert("Already done"); }
+  if (data.childNodes[4].innerText == "DONE") { alert("Already done"); }
   else { showModalWindowToEditItem(data); }
 }
 
@@ -85,10 +83,14 @@ function onModalWindowEditButtonClicked() {
   let currentList = JSON.parse(locallyStoredData.getItem("toDoListData"));
   for (let item of currentList) {
     if (item.id == data.id) {
+      if (data.description) { item.description = data.description; }
+      else { item.description = "No description"; }
+
+      if (data.deadline) { item.deadline = data.deadline; }
+      else { item.deadline = "No deadline"; }
+
       item.name = data.name;
-      item.description = data.description;
       item.priority = data.priority;
-      item.deadline = data.deadline;
       item.isDone = false;
       break;
     }
@@ -96,12 +98,11 @@ function onModalWindowEditButtonClicked() {
   locallyStoredData.setItem("toDoListData", JSON.stringify(currentList));
 
   const edited = document.querySelector(`.to-do-items-list .grid`).childNodes[data.id];
-  console.log(edited);
   edited.childNodes[0].innerText = data.name;
-  edited.childNodes[1].innerText = data.description;
-  edited.childNodes[3].innerText = data.deadline;
-  edited.childNodes[4].innerText = TODO;
-  edited.childNodes[2].innerText = PRIORITY;
+  if (data.description && (data.description != "No description")) { edited.childNodes[1].innerText = data.description; }
+  if (data.deadline && (data.deadline != "No deadline")) { edited.childNodes[3].innerText = data.deadline; }
+  edited.childNodes[4].innerText = "TO DO";
+  edited.childNodes[2].innerText = "Priority: ";
   let span = document.createElement("span");
   span.classList.add(`priority-` + data.priority);
   span.innerText = data.priority;
@@ -138,7 +139,7 @@ function onItemMarkAsReadButtonClicked(event) {
   }
   locallyStoredData.setItem("toDoListData", JSON.stringify(currentList));
 
-  data.childNodes[4].innerText = DONE;
+  data.childNodes[4].innerText = "DONE";
 }
 
 function renderToDoItem(data) {
@@ -158,7 +159,7 @@ function renderToDoItem(data) {
   itemDiv.setAttribute("id", data.id);
 
   title.innerText = data.name;
-  priority.innerText = PRIORITY;
+  priority.innerText = "Priority: ";
   prioritySpan.innerText = data.priority;
 
   if (data.description) { description.innerText = data.description; }
@@ -167,12 +168,12 @@ function renderToDoItem(data) {
   if (data.deadline) { deadline.innerText = data.deadline; }
   else { deadline.innerText = "No deadline"; }
 
-  if (data.isDone) { isDone.innerText = DONE; }
-  else { isDone.innerText = TODO; }
+  if (data.isDone) { isDone.innerText = "DONE"; }
+  else { isDone.innerText = "TO DO"; }
 
   deleteButton.value = "Delete";
   editButton.value = "Edit";
-  markAsReadButton.value = "Mark as read";
+  markAsReadButton.value = "Mark as done";
   deleteButton.type = "button";
   editButton.type = "button";
   markAsReadButton.type = "button";
@@ -249,8 +250,10 @@ function onSortButtonClicked() {
 // control panel
 const createButton = document.getElementById("control-panel-create-button");
 const sortButton = document.getElementById("control-panel-sort-button");
+const searchField = document.getElementById("control-panel-search");
 createButton.addEventListener("click", showModalWindowToCreateItem, false);
 sortButton.addEventListener("click", onSortButtonClicked, false);
+// searchField.addEventListener();
 
 // close modal window buttons
 const closeIcone = document.querySelector(`#modal-window .modal-close-icon`);
