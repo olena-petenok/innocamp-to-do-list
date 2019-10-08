@@ -238,8 +238,8 @@ function collectFormData() {
   const description = document.getElementById("description").value;
   const priority = document.getElementById("priority").value;
   const deadline = document.getElementById("deadline").value;
-  const id = parseInt(locallyStoredData.getItem("id"));
-  locallyStoredData.setItem("id", ("" + (id + 1)));
+  const id = parseInt(window.localStorage.getItem("id"));
+  window.localStorage.setItem("id", ("" + (id + 1)));
 
   return {
     id: id,
@@ -320,7 +320,7 @@ const form = document.getElementById("form");
 form.addEventListener('submit', onSubmitClicked);
 
 // local storage
-window.localStorage.clear();
+// window.localStorage.clear();
 if (window.localStorage.getItem("toDoListData") === null) {
   const defaultData = [{
     id: 1,
