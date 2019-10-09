@@ -170,4 +170,6 @@ function collectFormDataForEditing() {
   };
 }
 
-export { renderToDoItem, renderToDoList, hideModalWindow, showModalWindowToCreateItem, showModalWindowToEditItem, setFormToDefault, rerenderToDoItem, collectFormData, collectFormDataForEditing };
+export { renderToDoItem, renderToDoList, hideModalWindow, showModalWindowToCreateItem,
+         showModalWindowToEditItem, setFormToDefault, rerenderToDoItem, collectFormData,
+         collectFormDataForEditing };

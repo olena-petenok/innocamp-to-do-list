@@ -1,6 +1,8 @@
 $contol-panel-buttons-text-color: #ffffff
 $contol-panel-buttons-background-color: #16a085
 $contol-panel-buttons-background-color-hover: #1abc9c
+$contol-panel-search-background-color: #dcd4d4
+$contol-panel-search-background-color-hover: #bbb7b7
 
 $modal-window-close-icon-color: #000000
 
@@ -81,10 +83,14 @@ button, input
         -ms-transition:     all 0.3s
         -o-transition:      all 0.3s
         transition:         all 0.3s
-    &[type="text"]
-      &:focus
-        outline: 0
-        
+      &[type="text"]
+        &:focus
+          outline: 0
+    .search
+      background-color: $contol-panel-search-background-color
+      &:hover
+        background-color: $contol-panel-search-background-color-hover
+
 // modal-window------------------------------------------------------------
 #modal-window
   background-color: $modal-window-background-color

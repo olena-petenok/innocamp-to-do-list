@@ -1,34 +1,30 @@
 import './styles/style.sass';
 
+import { onItemEditButtonClicked, onModalWindowEditButtonClicked, onItemDeleteButtonClicked,
+         onItemMarkAsReadButtonClicked, onSubmitClicked, onSortButtonClicked,
+         onSearchButtonClicked } from './eventListeners.js';
+import { renderToDoList, hideModalWindow, showModalWindowToCreateItem,
+         showModalWindowToEditItem } from './domModifications.js';
 
-import { onItemEditButtonClicked, onModalWindowEditButtonClicked, onItemDeleteButtonClicked, onItemMarkAsReadButtonClicked, onSubmitClicked, onSortButtonClicked } from './eventListeners.js';
-import { renderToDoList, hideModalWindow, showModalWindowToCreateItem, showModalWindowToEditItem } from './domModifications.js';
-
-// control panel
 const createButton = document.getElementById("control-panel-create-button");
 const sortButton = document.getElementById("control-panel-sort-button");
 const searchField = document.getElementById("control-panel-search");
-createButton.addEventListener("click", showModalWindowToCreateItem, false);
-sortButton.addEventListener("click", onSortButtonClicked, false);
-// searchField.addEventListener();
-
-// close modal window buttons
 const closeIcone = document.querySelector(`#modal-window .modal-close-icon`);
 const createItemWindowCancelButton = document.getElementById("create-item-window-cancel-button");
 const editItemWindowCancelButton = document.getElementById("edit-item-window-cancel-button");
+const modalWindowEditButton = document.getElementById("edit-item-window-edit-button");
+const form = document.getElementById("form");
+
+createButton.addEventListener("click", showModalWindowToCreateItem, false);
+sortButton.addEventListener("click", onSortButtonClicked, false);
+searchField.addEventListener("input", onSearchButtonClicked, false);
 closeIcone.addEventListener("click", hideModalWindow, false);
 createItemWindowCancelButton.addEventListener("click", hideModalWindow, false);
 editItemWindowCancelButton.addEventListener("click", hideModalWindow, false);
-
-// modal window buttons (create as submit, edit)
-const modalWindowEditButton = document.getElementById("edit-item-window-edit-button");
 modalWindowEditButton.addEventListener("click", onModalWindowEditButtonClicked, false);
-// submit
-const form = document.getElementById("form");
-form.addEventListener('submit', onSubmitClicked);
+form.addEventListener('submit', onSubmitClicked, false);
 
-// local storage
-// window.localStorage.clear();
+window.localStorage.clear();
 if (window.localStorage.getItem("toDoListData") === null) {
   const defaultData = [{
     id: 1,
@@ -71,5 +67,4 @@ if (window.localStorage.getItem("toDoListData") === null) {
   window.localStorage.setItem("id", "6");
 }
 
-// first render of the list
 renderToDoList();

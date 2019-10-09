@@ -1,5 +1,8 @@
-import { getTodoListFromLocalStorage, setTodoListToLocalStorage, editItemInLocalStorage, deleteItemInLocalStorage, sortLocalStorage } from './localStorage.js';
-import { renderToDoItem, renderToDoList, hideModalWindow, showModalWindowToCreateItem, showModalWindowToEditItem, setFormToDefault, rerenderToDoItem, collectFormData, collectFormDataForEditing } from './domModifications.js';
+import { getTodoListFromLocalStorage, setTodoListToLocalStorage, editItemInLocalStorage,
+         deleteItemInLocalStorage, sortLocalStorage, searchInTheLocalStorage } from './localStorage.js';
+import { renderToDoItem, renderToDoList, hideModalWindow, showModalWindowToCreateItem,
+         showModalWindowToEditItem, setFormToDefault, rerenderToDoItem, collectFormData,
+         collectFormDataForEditing } from './domModifications.js';
 
 function onItemEditButtonClicked(event) {
   let data = event.target.parentElement.parentElement;
@@ -37,7 +40,6 @@ function onItemMarkAsReadButtonClicked(event) {
 }
 
 function onSubmitClicked(event) {
-  // check validity, then just collect data
   const data = collectFormData();
   hideModalWindow();
   let currentList = getTodoListFromLocalStorage();
@@ -48,10 +50,18 @@ function onSubmitClicked(event) {
   event.preventDefault();
 }
 
-// Sort all saved items by Done/Undone first and then by priority
 function onSortButtonClicked() {
-  sortLocalStorage();
+  sortLocalStorage(); // Sorts all saved items by Done/Todo first and then by priority
   // change dom
 }
 
-export { onItemEditButtonClicked, onModalWindowEditButtonClicked, onItemDeleteButtonClicked, onItemMarkAsReadButtonClicked, onSubmitClicked, onSortButtonClicked };
+// search by any text in the To-Do item (hiding items that do not match)
+function onSearchButtonClicked(event) {
+  // GET DATA FROM EVENT
+  let matchingData = searchInTheLocalStorage("Create stuff to");
+  console.log(matchingData);
+  // if (matchingData.length === 0) -> rerender dom
+}
+
+export { onItemEditButtonClicked, onModalWindowEditButtonClicked, onItemDeleteButtonClicked,
+         onItemMarkAsReadButtonClicked, onSubmitClicked, onSortButtonClicked, onSearchButtonClicked };

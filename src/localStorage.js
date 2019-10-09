@@ -67,4 +67,14 @@ function sortLocalStorage() {
   setTodoListToLocalStorage(sortedList);
 }
 
-export { getTodoListFromLocalStorage, setTodoListToLocalStorage, editItemInLocalStorage, deleteItemInLocalStorage, sortLocalStorage };
+function searchInTheLocalStorage(data) {
+  return getTodoListFromLocalStorage().filter(item => (
+    (item.name.toLowerCase().indexOf(data.toLowerCase()) > -1) ||
+    (item.description.toLowerCase().indexOf(data.toLowerCase()) > -1) ||
+    (item.priority.toLowerCase().indexOf(data.toLowerCase()) > -1) ||
+    (item.deadline.toLowerCase().indexOf(data.toLowerCase()) > -1)
+  ));
+}
+
+export { getTodoListFromLocalStorage, setTodoListToLocalStorage, editItemInLocalStorage,
+         deleteItemInLocalStorage, sortLocalStorage, searchInTheLocalStorage };
